@@ -1,4 +1,5 @@
 import 'package:albums_route/artist_info.dart';
+import 'package:albums_route/not_found_page.dart';
 import 'package:flutter/material.dart';
 import 'package:albums_route/artists_list.dart';
 import 'package:albums_route/home.dart';
@@ -12,7 +13,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: '/',
-      // ignore: missing_return
       onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {
           case HomePage.routeName:
@@ -37,6 +37,9 @@ class MyApp extends StatelessWidget {
               return ArtistInfo();
             });
         }
+        return MaterialPageRoute(builder: (BuildContext context) {
+          return NotFoundPage();
+        });
       },
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
@@ -82,8 +85,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     title: Text('Artists List'),
                     trailing: Icon(Icons.arrow_right_outlined),
                     onTap: () {
-                      Navigator.pop(context);
-                      Navigator.of(context).pushNamed('/artists_list');
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                          ('/artists_list'), (route) => false);
                     },
                   ),
                 ],
